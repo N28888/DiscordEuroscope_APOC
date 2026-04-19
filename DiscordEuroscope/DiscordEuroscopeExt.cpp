@@ -21,7 +21,14 @@
 #include "ConfigManager.h"
 #include "MessageFormatter.h"
 
-DiscordEuroscopeExt::DiscordEuroscopeExt() : EuroScopePlugIn::CPlugIn(EuroScopePlugIn::COMPATIBILITY_CODE, "DiscordEuroscope", PLUGIN_VERSION, "Kirollos Nashaat", "GNU GPLv3")
+static constexpr bool kEnablePresenceButtons = false;
+
+static const char* OptionalDiscordString(const std::string& value)
+{
+	return value.empty() ? nullptr : value.c_str();
+}
+
+DiscordEuroscopeExt::DiscordEuroscopeExt() : EuroScopePlugIn::CPlugIn(EuroScopePlugIn::COMPATIBILITY_CODE, "DiscordEuroscope_APOC", PLUGIN_VERSION, "Kirollos Nashaat & Yifan Jin", "GNU GPLv3")
 {
 	char DllPathFile[_MAX_PATH];
 	std::string RCPath;
@@ -99,7 +106,7 @@ VOID CALLBACK DiscordTimer(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent
 	memset(&discordPresence, 0, sizeof(discordPresence));
 	const ConfigData data = pMyPlugIn->config.Data();
 	discordPresence.largeImageKey = data.discord_presence_large_image_key.c_str();
-	discordPresence.smallImageKey = data.discord_presence_small_image_key.c_str();
+	discordPresence.smallImageKey = OptionalDiscordString(data.discord_presence_small_image_key);
 	discordPresence.startTimestamp = pMyPlugIn->EuroInittime;
 	
 	DiscordButton buttons[2] = { nullptr, nullptr };
@@ -112,8 +119,8 @@ VOID CALLBACK DiscordTimer(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent
 		discordPresence.details = data.states[State_Idle].details.c_str();
 		discordPresence.largeImageKey = ConfigData::LocalOrGlobal(data.states[State_Idle].presence_large_image_key, data.discord_presence_large_image_key).c_str();
 		discordPresence.largeImageText = data.states[State_Idle].presence_large_image_text.c_str();
-		discordPresence.smallImageKey = ConfigData::LocalOrGlobal(data.states[State_Idle].presence_small_image_key, data.discord_presence_small_image_key).c_str();
-		discordPresence.smallImageText = data.states[State_Idle].presence_small_image_text.c_str();
+		discordPresence.smallImageKey = OptionalDiscordString(ConfigData::LocalOrGlobal(data.states[State_Idle].presence_small_image_key, data.discord_presence_small_image_key));
+		discordPresence.smallImageText = OptionalDiscordString(data.states[State_Idle].presence_small_image_text);
 		discordPresence.state = data.states[State_Idle].state.c_str();
 		configButtons[0] = Button(
 			ConfigData::LocalOrGlobal(data.states[State_Idle].buttons[0].label, data.buttons[0].label),
@@ -124,7 +131,7 @@ VOID CALLBACK DiscordTimer(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent
 			ConfigData::LocalOrGlobal(data.states[State_Idle].buttons[1].url, data.buttons[1].url)
 		);
 
-		if (configButtons[0].IsValid())
+		if (kEnablePresenceButtons && configButtons[0].IsValid())
 		{
 			configButtons[0].FillStruct(buttons);
 			// Nested condition because there will never be a single button in index 1.
@@ -144,8 +151,8 @@ VOID CALLBACK DiscordTimer(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent
 		discordPresence.details = data.states[State_Playback].details.c_str();
 		discordPresence.largeImageKey = ConfigData::LocalOrGlobal(data.states[State_Playback].presence_large_image_key, data.discord_presence_large_image_key).c_str();
 		discordPresence.largeImageText = data.states[State_Playback].presence_large_image_text.c_str();
-		discordPresence.smallImageKey = ConfigData::LocalOrGlobal(data.states[State_Playback].presence_small_image_key, data.discord_presence_small_image_key).c_str();
-		discordPresence.smallImageText = data.states[State_Playback].presence_small_image_text.c_str();
+		discordPresence.smallImageKey = OptionalDiscordString(ConfigData::LocalOrGlobal(data.states[State_Playback].presence_small_image_key, data.discord_presence_small_image_key));
+		discordPresence.smallImageText = OptionalDiscordString(data.states[State_Playback].presence_small_image_text);
 		discordPresence.state = data.states[State_Playback].state.c_str();
 		configButtons[0] = Button(
 			ConfigData::LocalOrGlobal(data.states[State_Playback].buttons[0].label, data.buttons[0].label),
@@ -156,7 +163,7 @@ VOID CALLBACK DiscordTimer(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent
 			ConfigData::LocalOrGlobal(data.states[State_Playback].buttons[1].url, data.buttons[1].url)
 		);
 
-		if (configButtons[0].IsValid())
+		if (kEnablePresenceButtons && configButtons[0].IsValid())
 		{
 			configButtons[0].FillStruct(buttons);
 			// Nested condition because there will never be a single button in index 1.
@@ -178,8 +185,8 @@ VOID CALLBACK DiscordTimer(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent
 		discordPresence.details = data.states[State_Sweatbox].details.c_str();
 		discordPresence.largeImageKey = ConfigData::LocalOrGlobal(data.states[State_Sweatbox].presence_large_image_key, data.discord_presence_large_image_key).c_str();
 		discordPresence.largeImageText = data.states[State_Sweatbox].presence_large_image_text.c_str();
-		discordPresence.smallImageKey = ConfigData::LocalOrGlobal(data.states[State_Sweatbox].presence_small_image_key, data.discord_presence_small_image_key).c_str();
-		discordPresence.smallImageText = data.states[State_Sweatbox].presence_small_image_text.c_str();
+		discordPresence.smallImageKey = OptionalDiscordString(ConfigData::LocalOrGlobal(data.states[State_Sweatbox].presence_small_image_key, data.discord_presence_small_image_key));
+		discordPresence.smallImageText = OptionalDiscordString(data.states[State_Sweatbox].presence_small_image_text);
 		discordPresence.state = data.states[State_Sweatbox].state.c_str();
 		configButtons[0] = Button(
 			ConfigData::LocalOrGlobal(data.states[State_Sweatbox].buttons[0].label, data.buttons[0].label),
@@ -190,7 +197,7 @@ VOID CALLBACK DiscordTimer(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent
 			ConfigData::LocalOrGlobal(data.states[State_Sweatbox].buttons[1].url, data.buttons[1].url)
 		);
 
-		if (configButtons[0].IsValid())
+		if (kEnablePresenceButtons && configButtons[0].IsValid())
 		{
 			configButtons[0].FillStruct(buttons);
 			// Nested condition because there will never be a single button in index 1.
@@ -281,7 +288,7 @@ VOID CALLBACK DiscordTimer(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent
 		button2_url.c_str()
 	);
 
-	if (configButtons[0].IsValid())
+	if (kEnablePresenceButtons && configButtons[0].IsValid())
 	{
 		configButtons[0].FillStruct(buttons);
 		// Nested condition because there will never be a single button in index 1.
@@ -300,11 +307,11 @@ VOID CALLBACK DiscordTimer(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent
 	MessageFormatter::formatmap(presence_small_image_text, Dictionary);
 	MessageFormatter::formatmap(presence_large_image_text, Dictionary);
 
-	discordPresence.smallImageKey = presence_small_image_key.c_str();
+	discordPresence.smallImageKey = OptionalDiscordString(presence_small_image_key);
 	discordPresence.largeImageKey = presence_large_image_key.c_str();
 	discordPresence.state = state.c_str();
 	discordPresence.details = details.c_str();
-	discordPresence.smallImageText = presence_small_image_text.c_str();
+	discordPresence.smallImageText = OptionalDiscordString(presence_small_image_text);
 	discordPresence.largeImageText = presence_large_image_text.c_str();
 
 	discordPresence.startTimestamp = pMyPlugIn->EuroInittime;

@@ -59,7 +59,7 @@
                 \"buttons\": [\r\
                     {\r\
                         \"label\": \"Callsign stats\",\r\
-                        \"url\" : \"https://stats.vatsim.net/search/{callsign}\"\r\
+                        \"url\" : \"https://pilot.apocfly.com/flight-map\"\r\
                     }\r\
                 ]\r\
             },\r\
@@ -77,11 +77,11 @@
     \"buttons\": [\r\
         {\r\
             \"label\": \"Feedback\",\r\
-            \"url\" : \"mailto:info@vateg.net\"\r\
+            \"url\" : \"mailto:yifanj@yfanj.ca\"\r\
         },\r\
         {\r\
             \"label\": \"Download Plugin\",\r\
-            \"url\" : \"https://github.com/Kirollos/DiscordEuroscope/\"\r\
+            \"url\" : \"https://github.com/N28888/DiscordEuroscope_APOC/releases/\"\r\
         }\r\
     ],\r\
     \"radio_callsigns\": {\r\

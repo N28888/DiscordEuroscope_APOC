@@ -218,7 +218,7 @@ namespace DiscordEuroScope_Configuration
 
 		assert(RadioCallsignObj.HasMember("custom_callsigns") && RadioCallsignObj["custom_callsigns"].IsObject());
 		data.RadioCallsigns.clear();
-		auto& obj = RadioCallsignObj["custom_callsigns"].GetObjectA();
+		auto obj = RadioCallsignObj["custom_callsigns"].GetObject();
 		for (auto& it : obj)
 		{
 			RadioCallsignElement_t element;
