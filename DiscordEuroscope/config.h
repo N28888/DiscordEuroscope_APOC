@@ -23,7 +23,7 @@
 // No longer used by any logic in the code. Only used to be dumped in default .json config file.
 #define DISCORD_APPID				"1495279701835382794"
 #define PRESENCE_LARGE_IMAGE_KEY	"apoc_logo"
-#define PRESENCE_SMALL_IMAGE_KEY	""
+#define PRESENCE_SMALL_IMAGE_KEY	"euroscope"
 
 
 #include "DefaultFileContent.h"
